@@ -1,17 +1,18 @@
 import express, { Request, Response } from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
 
+// Initialize Express App
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware
+app.use(express.json());
 
-app.get("/api/status", (req: Request, res: Response) => {
-  res.json({ status: "online", timestamp: new Date().toISOString() });
+// API Example
+app.get("/api", (req: Request, res: Response) => {
+  res.send("API is running!");
 });
 
+// Start Server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
