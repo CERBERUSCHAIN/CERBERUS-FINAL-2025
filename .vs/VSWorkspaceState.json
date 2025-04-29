@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\wallet",
+    "\\src\\config",
+    "\\src\\hooks",
+    "\\src\\pages",
+    "\\src\\services",
+    "\\src\\styles",
+    "\\src\\utils"
+  ],
+  "SelectedNode": "\\src\\components\\cerberus\\CerberusDashboard.tsx",
+  "PreviewInSolutionExplorer": false
+}
