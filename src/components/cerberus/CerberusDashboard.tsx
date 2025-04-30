@@ -1,68 +1,73 @@
 import React, { useState } from "react";
+import { BarChart2, Zap, Activity, Wallet, ArrowUpDown, Users, Eye, MessageCircle, Settings, Database } from "lucide-react";
 
-// Types for Props
-interface NavSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
+// Import Components
+import NavSection from "./components/NavSection";
+import NavItem from "./components/NavItem";
+import BotTabs from "./components/BotTabs";
+import VolumeAnalysisBotContent from "./bot-tabs/VolumeAnalysisBotContent";
+import BundleBotContent from "./bot-tabs/BundleBotContent";
+import SniperBotContent from "./bot-tabs/SniperBotContent";
+import BumpBotContent from "./bot-tabs/BumpBotContent";
 
-interface NavItemProps {
-  icon: React.ReactNode;
-  text: string;
-  active?: boolean;
-  onClick: () => void;
-}
+// Constants
+const CURRENT_DATE = "2025-04-29 23:45:49";
+const CURRENT_USER = "CERBERUSCHAIN";
 
-// Navigation Section Component
-const NavSection: React.FC<NavSectionProps> = ({ title, children }) => (
-  <div className="px-4 py-2">
-    <div className="text-xs uppercase tracking-wider text-zinc-500 mb-2">{title}</div>
-    <div className="space-y-1">{children}</div>
-  </div>
-);
-
-// Navigation Item Component
-const NavItem: React.FC<NavItemProps> = ({ icon, text, active = false, onClick }) => (
-  <div
-    className={`flex items-center px-3 py-2 rounded-md cursor-pointer ${
-      active ? "bg-purple-900/30 text-purple-400" : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-300"
-    }`}
-    onClick={onClick}
-  >
-    {icon}
-    <span className="ml-2">{text}</span>
-  </div>
-);
-
-// Dashboard Component
-const CerberusDashboard: React.FC = () => {
+const CerberusDashboard = (): JSX.Element => {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [activeBotTab, setActiveBotTab] = useState<string>("volume");
+
+  // Render Tab Content
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <div>Dashboard Content</div>;
+      case "bots":
+        return (
+          <div>
+            <BotTabs activeBot={activeBotTab} setActiveBot={setActiveBotTab} />
+            {activeBotTab === "volume" && <VolumeAnalysisBotContent />}
+            {activeBotTab === "bundle" && <BundleBotContent />}
+            {activeBotTab === "sniper" && <SniperBotContent />}
+            {activeBotTab === "bump" && <BumpBotContent />}
+          </div>
+        );
+      default:
+        return <div>Coming Soon</div>;
+    }
+  };
 
   return (
-    <div className="flex h-screen bg-black text-white overflow-hidden">
+    <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-64 bg-zinc-800">
+      <div className="w-64">
         <NavSection title="Main">
           <NavItem
-            icon={<i className="fas fa-home" />}
+            icon={<BarChart2 size={18} />}
             text="Dashboard"
             active={activeTab === "dashboard"}
             onClick={() => setActiveTab("dashboard")}
           />
           <NavItem
-            icon={<i className="fas fa-wallet" />}
-            text="Wallet Manager"
-            active={activeTab === "wallet-manager"}
-            onClick={() => setActiveTab("wallet-manager")}
+            icon={<Zap size={18} />}
+            text="Trading Bots"
+            active={activeTab === "bots"}
+            onClick={() => setActiveTab("bots")}
+          />
+        </NavSection>
+        <NavSection title="Settings">
+          <NavItem
+            icon={<Settings size={18} />}
+            text="Settings"
+            active={activeTab === "settings"}
+            onClick={() => setActiveTab("settings")}
           />
         </NavSection>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6">
-        {activeTab === "dashboard" && <div>Dashboard Content</div>}
-        {activeTab === "wallet-manager" && <div>Wallet Manager Content</div>}
-      </div>
+      <div className="flex-1">{renderTabContent()}</div>
     </div>
   );
 };
